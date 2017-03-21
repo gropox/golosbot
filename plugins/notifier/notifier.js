@@ -4,7 +4,7 @@ var golos = require("../../golos");
 var commentHandler = require("./ops/comment_handler");
 var voteHandler = require("./ops/vote_handler");
 
-var tg = require("telegram-bot-api-c")(global.settings.telegram.token);
+
 
 function debug(msg) {
     console.log("notifier: " + msg);

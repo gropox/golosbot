@@ -53,6 +53,16 @@ async function getAccountData(userid) {
     }        
 }
 
+async function getContent(userid, permlink) {
+    try {
+        var content = await steem.api.getContentAsync(userid, permlink);
+        return content;
+    } catch(e) {
+        console.error(e);
+    }        
+}
+
+
 async function getProps() {
     await retrieveDynGlobProps();
     return props;
@@ -96,6 +106,7 @@ async function getUserPower(userid) {
     }     
 }
 
+module.exports.getContent = getContent;
 module.exports.getUserPower = getUserPower;
 module.exports.getProps = getProps;
 module.exports.getAccountData = getAccountData;

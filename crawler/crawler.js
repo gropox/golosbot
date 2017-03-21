@@ -9,7 +9,7 @@ module.exports = function Crawler () {
     this.start = async function() {
         let props = await golos.getProps();
         this.lastRetrievedBlock = props.head_block_number;
-        this.lastRetrievedBlock = 4413631;
+        this.lastRetrievedBlock = 4433303;
         console.log("starting loop");
         while(true) {
             try  {
