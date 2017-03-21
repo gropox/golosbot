@@ -64,7 +64,7 @@ async function notifySubscribed(comment) {
     let parts = root.match(/@(.+)\/(.*)/);
     let content = await golos.getContent(parts[1], parts[2]);
     debug("notify subscribed");
-    let msg = "@" + comment.author + " прокомментировал пост *\"" + content.root_title + "\"*, на который вы подписанны"
+    let msg = "@" + comment.author + " прокомментировал пост *" + content.root_title + "*, на который вы подписанны"
     +"\n[Комментарий](" + buildOwnUrl(comment) + ")";
     debug(msg);   
     telegram.send(msg);    
@@ -72,8 +72,16 @@ async function notifySubscribed(comment) {
 
 async function notifyCommentedMyComment(comment) {
     let content = await golos.getContent(comment.parent_author, comment.parent_permlink);
-    let msg = "@" + comment.author + " прокомментировал ваш пост *\"" + content.root_title + "\"*"
+    
+    msg = "";
+    
+    if(content.title == "") {
+        msg = "@" + comment.author + " ответил на ваш комментарий в теме *" + content.root_title + "*"
+            + "\n[Комментарий](" + buildOwnUrl(comment) + ")";
+    } else {
+        msg = "@" + comment.author + " прокомментировал ваш пост *" + content.root_title + "*"
         + "\n[Комментарий](" + buildOwnUrl(comment) + ")";
+    }
     debug(msg);   
     telegram.send(msg);
 }
