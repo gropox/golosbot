@@ -4,6 +4,7 @@ var golos = require("../../golos");
 var commentHandler = require("./ops/comment_handler");
 var voteHandler = require("./ops/vote_handler");
 var curationRewardHandler = require("./ops/curation_reward_handler");
+var authorRewardHandler = require("./ops/author_reward_handler");
 
 
 
@@ -17,6 +18,7 @@ module.exports.accept = function(op) {
         case "vote" :
         case "comment" :
         case "curation_reward" :
+        case "author_reward" :
             return true;
         default:
             return false;    
@@ -34,6 +36,9 @@ module.exports.process = async function (op, opBody) {
         break;
     case "curation_reward": 
         curationRewardHandler.handle(new golos.CurationReward(opBody));
+        break;
+    case "author_reward": 
+        authorRewardHandler.handle(new golos.AuthorReward(opBody));
         break;
     }   
 }

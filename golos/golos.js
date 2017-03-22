@@ -1,6 +1,8 @@
 var steem = require("steem");
 var Comment = require("./ops/comment");
 var Vote = require("./ops/vote");
+var CurationReward = require("./ops/curation_reward");
+var AuthorReward = require("./ops/author_reward");
 
 const golos_ws = "wss://ws.golos.io";
 steem.api.setWebSocket(golos_ws);
@@ -106,11 +108,26 @@ async function getUserPower(userid) {
     }     
 }
 
+async function getAccountHistory(userid, startId, count) {
+    try {
+        var accountHistory = await steem.api.getAccountHistoryAsync(userid,startId,count);
+        return accountHistory;
+    } catch(e) {
+        console.error(e);
+        return [];
+    }     
+} 
+
+module.exports.getAccountHistory = getAccountHistory;
 module.exports.getContent = getContent;
 module.exports.getUserPower = getUserPower;
 module.exports.getProps = getProps;
 module.exports.getAccountData = getAccountData;
 module.exports.calculateGests = calculateGests;
 module.exports.getCurrentServerTime = getCurrentServerTime;
+
 module.exports.Comment = Comment;
 module.exports.Vote = Vote;
+module.exports.CurationReward = CurationReward;
+module.exports.AuthorReward = AuthorReward;
+
