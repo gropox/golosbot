@@ -9,7 +9,7 @@ module.exports = function Crawler () {
     this.start = async function() {
         let props = await golos.getProps();
         this.lastRetrievedBlock = props.head_block_number;
-        this.lastRetrievedBlock = 4434060;
+        this.lastRetrievedBlock = 4415505;
         console.log("starting loop");
         while(true) {
             try  {
@@ -19,7 +19,12 @@ module.exports = function Crawler () {
                     //console.log("got next block " + JSON.stringify(block));
                     var transactions = block.transactions;
                     //console.log("got block with transactions : " + JSON.stringify(transactions));
+                    let doBlock = true;
                     for(var i = 0; i < transactions.length; i++) {
+                        if(doBlock) {
+                            doBlock = false;
+                            console.log("process block " + this.lastRetrievedBlock);
+                        }
                         let operations = transactions[i].operations;
                         for(var o = 0; o < operations.length; o++) {
                             let d = new Date();

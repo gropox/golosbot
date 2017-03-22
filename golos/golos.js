@@ -71,16 +71,14 @@ async function getProps() {
 /**
  * Вычисляет Gests как в кошельке.
  */
-async function calculateGests(userid) {
+async function calculateGests(vesting_shares) {
 
     let props = await getProps();
     
     let steem_per_mvests = 
         1000000.0 * parseFloat(props.total_vesting_fund_steem.split(" ")[0]) / parseFloat(props.total_vesting_shares.split(" ")[0]); 
-  
-    let voterData = await getAccountData(userid);
 
-    let gests = parseFloat(voterData[0].vesting_shares.split(" ")[0]);
+    let gests = parseFloat(vesting_shares.split(" ")[0]);
 
     gests = steem_per_mvests * gests / 1000000;
     
@@ -89,10 +87,12 @@ async function calculateGests(userid) {
 
 
 async function getUserPower(userid) {
-    let voterData = await getAccountData(voter);
-    let gests = parseFloat(voterData[0].vesting_shares.split(" ")[0]);
+    let userData = await getAccountData(userid);
+    //let gests = parseFloat(userData[0].vesting_shares.split(" ")[0]);
 
-    gests = gests / 1000;
+    //gests = gests / 1000;
+    
+    let gests = await calculateGests(userData[0].vesting_shares);
     if(gests <= 999) {
         return "Морской конек";
     } else if(gests <= 9999) {
