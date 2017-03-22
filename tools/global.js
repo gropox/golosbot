@@ -18,6 +18,8 @@ function trace(msg) {
 }
 
 module.exports.settings = {
+    "host" : "https://golos.io",
+    "websocket": "wss://ws.golos.io",	
     "userid":"ropox",
     "telegram":{
         "token":"",
