@@ -19,7 +19,7 @@ module.exports = function Comment(opBody) {
         
         if(this.isRoot()) {
             //console.log("the root!");
-            return "";
+            return "/@" + this.author + "/" + this.permlink;
         }
 
         let permpath = this.permlink.split("re-");

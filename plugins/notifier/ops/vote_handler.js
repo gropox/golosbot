@@ -11,11 +11,27 @@ function trace(msg) {
 }
 
 module.exports.handle = async function (vote) {
-    if(vote.isCommentMine(global.settings.userid) && !vote.isMine(global.settings.userid)) {
-        await notifyVote(vote);
-    } 
-
+    if(vote.isMine(global.settings.userid)) {
+        //Я голосовал
+        if(!vote.isCommentMine(global.settings.userid)) {
+            //Голосвал за чей то пост
+            //Подпишемся
+            subscribe(vote);
+        }
+    } else {
+        //Я кто-то другой голосовал
+        if(vote.isCommentMine(global.settings.userid)) {
+            //Голосовали за мой пост
+            await notifyVote(vote);
+        } 
+    }
 }    
+
+async function subscribe(vote) {
+    let root = vote.getRoot();
+    await global.subscribe(root);
+    console.log("subscribed to " + root );
+}
 
 async function notifyVote(vote)  {
     let content = await golos.getContent(vote.author, vote.permlink);    

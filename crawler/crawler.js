@@ -20,7 +20,7 @@ module.exports = function Crawler () {
         //console.log("got account history " + JSON.stringify(userHistory));
         console.log("Last History Id = " + lastHistId),
         this.lastRetrievedBlock = props.head_block_number;
-        //this.lastRetrievedBlock = 4415505; // для отладки
+        //this.lastRetrievedBlock = 4493826; // для отладки
         console.log("starting loop");
         
         // бесконечный цикл

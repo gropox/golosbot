@@ -13,3 +13,6 @@ module.exports.send = function(msg) {
     debug("send messag: " + msg);
     tg.api.sendMessage({chat_id: global.settings.telegram.chatid, text: msg, parse_mode: "Markdown"})
 }
+
+
+

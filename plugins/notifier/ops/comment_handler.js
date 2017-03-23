@@ -13,7 +13,7 @@ module.exports.handle = async function (comment) {
         
     trace("comment = " + comment.permlink + " author = " + comment.author );
     if(comment.isMine(global.settings.userid)) {
-        handleMineComment(comment);
+        handleMyComment(comment);
     } else {
         handleAlienComment(comment);
     }
@@ -36,7 +36,7 @@ async function handleAlienComment(comment) {
 }    
 
 
-async function handleMineComment(comment) {
+async function handleMyComment(comment) {
     trace("comment is mine");
     //я 
     // * оставил комментарий, 

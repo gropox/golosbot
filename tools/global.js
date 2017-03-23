@@ -30,7 +30,6 @@ module.exports.settings = {
 function subscribed(post) {
   return new Promise(resolve => {
     db.find({ ob: SUBSCRIBTION, topic : post }, function(err, docs) {
-        
         resolve(docs.length > 0);
     });
   });
