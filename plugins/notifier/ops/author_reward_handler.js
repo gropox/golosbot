@@ -36,10 +36,10 @@ async function notifyAuthorReward(reward)  {
     rewardGests = rewardGests.toFixed(3);
     if(content.title == "") {
         message = "Вы получили " + payoutMsg + " авторских за комментарий к теме *" + content.root_title + "*"
-            + "\n[Тема](" + global.settings.host + "/@" + reward.comment_author + "/" + reward.comment_permlink + ")"; 
+            + "\n[Тема](" + global.settings.host + "/@" + reward.author + "/" + reward.permlink + ")"; 
     } else {
         message = "Вы получили " + payoutMsg + " авторских за тему *" + content.title + "*"
-            + "\n[Тема](" + global.settings.host + "/@" + reward.comment_author + "/" + reward.comment_permlink + ")"; 
+            + "\n[Тема](" + global.settings.host + "/@" + reward.author + "/" + reward.permlink + ")"; 
     }
     debug("msg : " + message);
     telegram.send(message);

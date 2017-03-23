@@ -16,7 +16,7 @@ module.exports = function Crawler () {
         let props = await golos.getProps();
         let userHistory = await golos.getAccountHistory(global.settings.userid, -1, 0);
         let lastHistId = userHistory[0][0];
-        //lastHistId = 2438; // для отладки 
+        //lastHistId = 2957; // для отладки 
         //console.log("got account history " + JSON.stringify(userHistory));
         console.log("Last History Id = " + lastHistId),
         this.lastRetrievedBlock = props.head_block_number;
