@@ -34,7 +34,7 @@ async function handleAlienComment(comment) {
 
 
 async function checkMention(comment) {
-    log.debug("check mention");
+    //log.debug("check mention");
     //проверить упоминание, искать в тексте @{USERID}
     if(comment.body.match(USERID_MATCH)) {
         let root = comment.getRoot();
