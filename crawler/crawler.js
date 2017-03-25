@@ -1,6 +1,7 @@
 var golos = require('../golos');
 var global = require('../tools/global');
 var pluginDispatcher = require("../plugins/dispatcher");
+var log = require("../tools/logger").getLogger(__filename, 10);
 
 module.exports = function Crawler () {
     
@@ -18,10 +19,10 @@ module.exports = function Crawler () {
         let lastHistId = userHistory[0][0];
         //lastHistId = 2957; // для отладки 
         //console.log("got account history " + JSON.stringify(userHistory));
-        console.log("Last History Id = " + lastHistId),
+        log.info("Last History Id = " + lastHistId),
         this.lastRetrievedBlock = props.head_block_number;
-        //this.lastRetrievedBlock = 4493826; // для отладки
-        console.log("starting loop");
+        this.lastRetrievedBlock = 4508932; // для отладки
+        log.info("starting loop");
         
         // бесконечный цикл
         //   берем следующий блок и обрабьатываем операции из него
@@ -52,7 +53,7 @@ module.exports = function Crawler () {
                     await sleep(3000);
                 }
             } catch(e) {
-                console.error("error ", e);
+                log.error("error ", e);
                 await sleep(3000);
             }
         }
@@ -67,7 +68,6 @@ async function processBlock(block) {
     for(var i = 0; i < transactions.length; i++) {
         if(doBlock) {
             doBlock = false;
-            console.log("process block " + this.lastRetrievedBlock);
         }
         let operations = transactions[i].operations;
         for(var o = 0; o < operations.length; o++) {
@@ -81,7 +81,7 @@ async function processBlock(block) {
 async function processUserHistoryEntry(op) {
 
     let opType = op[0];
-    console.log("process history entry " + opType );   
+    log.debug("process history entry " + opType );   
     switch(opType) {
         //эти операции можно получить только из истории аккаунта
         case "curation_reward" :
@@ -96,7 +96,7 @@ async function processUserHistoryEntry(op) {
 async function handleOp(op) {
     let opType = op[0];
     let opBody = op[1];
-    console.log("handle op : " + opType);
+    log.debug("handle op : " + opType);
     //console.log("body op : " + JSON.stringify(opBody));
     pluginDispatcher.process(opType,opBody);
     

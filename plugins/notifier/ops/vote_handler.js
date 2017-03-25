@@ -1,14 +1,7 @@
 var golos = require("../../../golos");
 var global = require("../../../tools/global");
 var telegram = require("../telegram");
-
-function debug(msg) {
-    console.log("vote_handler: " + msg );
-}
-
-function trace(msg) {
-    console.log("vote_handler: " + msg );
-}
+var log = require("../../../tools/logger").getLogger(__filename, 10);
 
 module.exports.handle = async function (vote) {
     if(vote.isMine(global.settings.userid)) {
@@ -30,7 +23,7 @@ module.exports.handle = async function (vote) {
 async function subscribe(vote) {
     let root = vote.getRoot();
     await global.subscribe(root);
-    console.log("subscribed to " + root );
+    log.debug("subscribed to " + root );
 }
 
 async function notifyVote(vote)  {
@@ -46,7 +39,7 @@ async function notifyVote(vote)  {
         message = "/" + fish + "/ @" + vote.voter + " проголосовал за ваш пост *" + content.title + "* с силой " + weight + "%"
             + "\n[Тема](" + global.settings.host + "/@" + vote.author + "/" + vote.permlink + ")"; 
     }
-    debug("msg : " + message);
+    log.debug("msg : " + message);
     telegram.send(message);
 }
 

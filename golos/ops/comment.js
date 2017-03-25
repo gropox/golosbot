@@ -3,7 +3,7 @@ module.exports = function Comment(opBody) {
     Object.assign(this, opBody);
     
     this.isRoot = function() {
-        return this.parent_permlink && "" == this.parent_permlink;
+        return !this.parent_author || "" == this.parent_author;
     }
     
     this.isMine = function (userid) {
@@ -15,15 +15,15 @@ module.exports = function Comment(opBody) {
     }
         
     this.getRoot = function getPermlinkFromComment() {
-        //console.log("get root!");
-        
+        console.log("get root! [" + this.parent_author);
+        console.log("get root! [" + this.permlink);
         if(this.isRoot()) {
-            //console.log("the root!");
+            console.log("the root!");
             return "/@" + this.author + "/" + this.permlink;
         }
 
         let permpath = this.permlink.split("re-");
-        //console.log(JSON.stringify(permpath));
+        console.log(JSON.stringify(permpath));
         if(permpath.length < 2) {
             return "";
         }

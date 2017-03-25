@@ -3,6 +3,7 @@ var Comment = require("./ops/comment");
 var Vote = require("./ops/vote");
 var CurationReward = require("./ops/curation_reward");
 var AuthorReward = require("./ops/author_reward");
+var log = require("../tools/logger").getLogger(__filename, 2);
 
 const golos_ws = "wss://ws.golos.io";
 steem.api.setWebSocket(golos_ws);
@@ -20,7 +21,7 @@ async function retrieveDynGlobProps() {
         //console.log("last retrieved " + lastRetrievedProps );
         //console.log("timeDiff " + timeDiff );
         if(lastRetrievedProps + timeDiff + 15000 < new Date().getTime()) {
-            console.log("retrieve dyn glob props"); 
+            log.debug("retrieve dyn glob props"); 
             props = await steem.api.getDynamicGlobalPropertiesAsync();
             //console.log(JSON.stringify(props));
             lastRetrievedProps = getCurrentServerTime();
@@ -28,7 +29,7 @@ async function retrieveDynGlobProps() {
             timeDiff = new Date().getTime() - lastRetrievedProps;
         }
     } catch(e) {
-        console.error(e);
+        log.error(e);
     }        
 }
 
@@ -42,7 +43,7 @@ module.exports.getBlock = async function(number) {
         var block = await steem.api.getBlockAsync(number);
         return block;
     } catch(e) {
-        console.error(e);
+        log.error(e);
     }        
 }
 
@@ -51,7 +52,7 @@ async function getAccountData(userid) {
         var accountData = await steem.api.getAccountsAsync([userid]);
         return accountData;
     } catch(e) {
-        console.error(e);
+        log.error(e);
     }        
 }
 
@@ -60,7 +61,7 @@ async function getContent(userid, permlink) {
         var content = await steem.api.getContentAsync(userid, permlink);
         return content;
     } catch(e) {
-        console.error(e);
+        log.error(e);
     }        
 }
 
@@ -113,7 +114,7 @@ async function getAccountHistory(userid, startId, count) {
         var accountHistory = await steem.api.getAccountHistoryAsync(userid,startId,count);
         return accountHistory;
     } catch(e) {
-        console.error(e);
+        log.error(e);
         return [];
     }     
 } 

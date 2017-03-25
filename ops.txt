@@ -1,0 +1,19 @@
+crawler.js: handl
+crawler.js: handle op : account_create
+crawler.js: handle op : account_update
+crawler.js: handle op : comment
+crawler.js: handle op : comment_options
+crawler.js: handle op : convert
+crawler.js: handle op : curation_reward
+crawler.js: handle op : custom_json
+crawler.js: handle op : delete_comment
+crawler.js: handle op : feed_publish
+crawler.js: handle op : limit_order_cancel
+crawler.js: handle op : limit_order_create
+crawler.js: handle op : pow2
+crawler.js: handle op : transfer
+crawler.js: handle op : transfer_to_vesting
+crawler.js: handle op : vote
+crawler.js: Last History Id = 2981
+crawler.js: process history entry curation_reward
+crawler.js: starting loop

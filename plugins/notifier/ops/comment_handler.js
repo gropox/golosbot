@@ -1,18 +1,14 @@
 var global = require("../../../tools/global");
 var golos = require("../../../golos");
 var telegram = require("../telegram");
-function debug(msg) {
-    console.log("comment_handler: " + msg );
-}
+var log = require("../../../tools/logger").getLogger(__filename, 10);
 
-function trace(msg) {
-    console.log("comment_handler: " + msg );
-}
-
+const USERID = global.settings.userid;
+const USERID_MATCH = new RegExp("@" + USERID);
 module.exports.handle = async function (comment) {
         
-    trace("comment = " + comment.permlink + " author = " + comment.author );
-    if(comment.isMine(global.settings.userid)) {
+    log.trace("comment = " + comment.permlink + " author = " + comment.author);
+    if(comment.isMine(USERID)) {
         handleMyComment(comment);
     } else {
         handleAlienComment(comment);
@@ -21,23 +17,40 @@ module.exports.handle = async function (comment) {
 }    
 
 async function handleAlienComment(comment) {
-    if(comment.isParentMine(global.settings.userid)) {
+    if(comment.isParentMine(USERID)) {
         notifyCommentedMyComment(comment);
     } else {
         if(!comment.isRoot()) {
-            trace("комментарий, проверка подписки")
+            log.trace("комментарий, проверка подписки")
             let subscribed = await global.subscribed(comment.getRoot());
-            trace("подписка " + subscribed)
+            log.trace("подписка " + subscribed)
             if(subscribed) {
                 notifySubscribed(comment);
             }
         }
     }
+    checkMention(comment);
 }    
 
 
+async function checkMention(comment) {
+    log.debug("check mention");
+    //проверить упоминание, искать в тексте @{USERID}
+    if(comment.body.match(USERID_MATCH)) {
+        let root = comment.getRoot();
+        log.debug("root = " + root );
+        let parts = root.match(/@(.+)\/(.*)/);
+        let content = await golos.getContent(parts[1], parts[2]);
+        log.debug("notify mention");
+        let msg = "@" + comment.author + " упомянул вас в теме *" + content.root_title + "*"
+        +"\n[Комментарий](" + buildOwnUrl(comment) + ")";
+        log.debug(msg);   
+        telegram.send(msg);        
+    }       
+}
+
 async function handleMyComment(comment) {
-    trace("comment is mine");
+    log.trace("comment is mine");
     //я 
     // * оставил комментарий, 
     // * написал пост,
@@ -56,17 +69,17 @@ function buildOwnUrl(comment) {
 async function subscribeToThema(comment) {
     let root = comment.getRoot();
     await global.subscribe(root);
-    console.log("subscribed to " + root );
+    log.trace("subscribed to " + root );
 }
 
 async function notifySubscribed(comment) {
     let root = comment.getRoot();
     let parts = root.match(/@(.+)\/(.*)/);
     let content = await golos.getContent(parts[1], parts[2]);
-    debug("notify subscribed");
+    log.debug("notify subscribed");
     let msg = "@" + comment.author + " прокомментировал пост *" + content.root_title + "*, на который вы подписанны"
     +"\n[Комментарий](" + buildOwnUrl(comment) + ")";
-    debug(msg);   
+    log.debug(msg);   
     telegram.send(msg);    
 }
 
@@ -82,7 +95,7 @@ async function notifyCommentedMyComment(comment) {
         msg = "@" + comment.author + " прокомментировал ваш пост *" + content.root_title + "*"
         + "\n[Комментарий](" + buildOwnUrl(comment) + ")";
     }
-    debug(msg);   
+    log.debug(msg);   
     telegram.send(msg);
 }
 
