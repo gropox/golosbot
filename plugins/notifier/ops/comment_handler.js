@@ -1,7 +1,7 @@
 var global = require("../../../tools/global");
 var golos = require("../../../golos");
 var telegram = require("../telegram");
-var log = require("../../../tools/logger").getLogger(__filename, 10);
+var log = require("../../../tools/logger").getLogger(__filename, 2);
 
 const USERID = global.settings.userid;
 const USERID_MATCH = new RegExp("@" + USERID);
