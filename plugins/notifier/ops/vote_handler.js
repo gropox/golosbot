@@ -34,10 +34,10 @@ async function notifyVote(vote)  {
     
     if(content.title == "") {
         message = "/" + fish + "/ @" + vote.voter + " проголосовал за ваш комментарий в теме *" + content.root_title + "* с силой " + weight + "%"
-            + "\n[Тема](" + global.settings.host + "/@" + vote.author + "/" + vote.permlink + ")"; 
+            + "\n[Тема](" + golos.buildUrlFromContent(content) + ")"; 
     } else {
         message = "/" + fish + "/ @" + vote.voter + " проголосовал за ваш пост *" + content.title + "* с силой " + weight + "%"
-            + "\n[Тема](" + global.settings.host + "/@" + vote.author + "/" + vote.permlink + ")"; 
+            + "\n[Тема](" + golos.buildUrlFromContent(content) + ")"; 
     }
     log.debug("msg : " + message);
     telegram.send(message);

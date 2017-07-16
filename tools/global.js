@@ -71,6 +71,6 @@ function init() {
         }
     }
     db = new nedb({filename : GOLOSBOT_DB, autoload : true});
-} 
+}
 
 init();
